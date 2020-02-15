@@ -1,8 +1,8 @@
-version: '2'
+version: "2"
 networks:
   api:
     driver: "bridge"
-services: 
+services:
   frontend:
     build:
       context: .
@@ -11,10 +11,10 @@ services:
     ports:
       - 3000:3000
       - 4200:4200
-    volumes: 
+    volumes:
       - ./frontend:/app/home
     tty: true
-    networks: 
+    networks:
       - api
   backend:
     build:
@@ -22,10 +22,20 @@ services:
       dockerfile: ./docker/backend/Dockerfile
     container_name: backend
     ports:
-        - 8080:8080
-        - 8000:8000
-    volumes: 
+      - 8080:8080
+      - 8000:8000
+    volumes:
       - ./backend:/app/home
     tty: true
-    networks: 
+    networks:
+      - api
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis
+    tty: true
+    networks:
       - api
